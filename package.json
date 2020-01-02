@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "webpack -d --watch --progress",
     "start": "nodemon server/controller.js"
   },
   "repository": {
@@ -15,10 +16,21 @@
   "bugs": {
     "url": "https://github.com/briansai/remindme/issues"
   },
+  "eslintConfig": {
+    "env": {
+        "browser": true,
+        "node": true
+    }
+  },
   "homepage": "https://github.com/briansai/remindme#readme",
   "dependencies": {
+    "core-js": "^3.2.1",
     "express": "^4.17.1",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "normalize.css": "^8.0.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "regenerator-runtime": "^0.13.3"
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
@@ -29,12 +41,13 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/runtime": "^7.7.2",
     "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.3",
     "babel-loader": "^8.0.6",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "core-js": "^3.2.1",
     "css-loader": "^3.0.0",
     "eslint": "^6.1.0",
     "eslint-config-airbnb": "^18.0.1",
+    "eslint-loader": "^3.0.3",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.17.0",
@@ -42,7 +55,6 @@
     "file-loader": "^4.1.0",
     "mini-css-extract-plugin": "^0.7.0",
     "node-sass": "^4.12.0",
-    "regenerator-runtime": "^0.13.3",
     "sass": "^1.22.2",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
