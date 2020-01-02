@@ -14,10 +14,11 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?/,
+        test: /\.(js|jsx)$/,
         include: SRC_DIR,
         loader: 'babel-loader',
         exclude: /node_modules/,
+        use: ["eslint-loader"],
         query: {
           "presets": ["@babel/preset-env", "@babel/preset-react"],
         }
