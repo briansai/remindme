@@ -18,12 +18,14 @@
   },
   "eslintConfig": {
     "env": {
-        "browser": true,
-        "node": true
+      "browser": true,
+      "node": true
     }
   },
   "homepage": "https://github.com/briansai/remindme#readme",
   "dependencies": {
+    "@material-ui/core": "^4.8.2",
+    "@material-ui/icons": "^4.5.1",
     "core-js": "^3.2.1",
     "express": "^4.17.1",
     "nodemon": "^1.19.1",
