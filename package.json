@@ -28,8 +28,10 @@
     "@material-ui/icons": "^4.5.1",
     "core-js": "^3.2.1",
     "express": "^4.17.1",
+    "moment": "^2.24.0",
     "nodemon": "^1.19.1",
     "normalize.css": "^8.0.1",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "regenerator-runtime": "^0.13.3"
