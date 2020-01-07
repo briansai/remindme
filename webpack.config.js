@@ -15,19 +15,20 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?/,
+        loader: 'eslint-loader',
+        enforce: "pre",
+        resolve: {
+          extensions: ['.js', '.jsx'],
+        },
+      },
+      {
+        test: /\.jsx?/,
         include: SRC_DIR,
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: {
           "presets": ["@babel/preset-env", "@babel/preset-react"],
         }
-      },
-      {
-        test: /\.jsx?/,
-        loader: 'eslint-loader',
-        resolve: {
-          extensions: ['.js', '.jsx'],
-        },
       },
       {
         test: /\.html$/,

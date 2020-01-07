@@ -12,14 +12,17 @@ export default class App extends Component {
   }
 
   render() {
-    const { schedule } = this.state;
+    const { schedule, addModal } = this.state;
     return (
       <div>
         <div className="main">
           <NavBar />
         </div>
         <div>
-          <Schedule schedule={schedule} />
+          <Schedule
+            schedule={schedule}
+            addModal={addModal}
+          />
         </div>
       </div>
     );
