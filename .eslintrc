@@ -7,6 +7,9 @@
     "import"
   ],
   "env":{
-    "browser": true
+    "browser": true,
   },
+  "rules": {
+    "react/jsx-fragments": 0,
+  }
 }

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -7,6 +7,7 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import { Cancel, Star } from '@material-ui/icons';
 import moment from 'moment';
+import AddDialog from './AddDialog/AddDialog';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,57 +42,67 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Schedule = ({ schedule }) => {
+  const [addClicked, iconClick] = useState(false);
   const classes = useStyles();
   const {
     root, header, item, fab, addIcon, dateFormat,
   } = classes;
   const date = moment().format('MMMM D, YYYY');
   return (
-    <List className={root}>
-      <ListSubheader className={header}>
-        <Fab
-          size="medium"
-          aria-label="add"
-          display="inline"
-          className={fab}
-        >
-          <AddIcon className={addIcon} />
-        </Fab>
-        <Typography
-          display="inline"
-          variant="h5"
-          className={dateFormat}
-        >
-          {date}
-        </Typography>
-      </ListSubheader>
-      {schedule && schedule.length ? (
-        <div>
-          {schedule.map((work, index) => {
-            const { time, toDo } = work;
-            return (
-              <Fragment key={String(index)}>
-                <ListItem className={item}>
-                  <ListItemText primary={`${time}: ${toDo}`} />
-                  <Star />
-                  <Cancel />
-                </ListItem>
-                <Divider component="li" />
-              </Fragment>
-            );
-          })}
-        </div>
-      ) : (
-        <Typography style={{ height: 'auto', textAlign: 'center' }}>
-          You have nothing scheduled for today
-        </Typography>
-      )}
-    </List>
+    <Fragment>
+      <List className={root}>
+        <ListSubheader className={header}>
+          <Fab
+            size="medium"
+            aria-label="add"
+            display="inline"
+            className={fab}
+          >
+            <AddIcon
+              className={addIcon}
+              onClick={() => iconClick(true)}
+            />
+          </Fab>
+          <Typography
+            display="inline"
+            variant="h5"
+            className={dateFormat}
+          >
+            {date}
+          </Typography>
+        </ListSubheader>
+        {schedule && schedule.length ? (
+          <div>
+            {schedule.map((work, index) => {
+              const { time, toDo } = work;
+              return (
+                <Fragment key={String(index)}>
+                  <ListItem className={item}>
+                    <ListItemText primary={`${time}: ${toDo}`} />
+                    <Star />
+                    <Cancel />
+                  </ListItem>
+                  <Divider component="li" />
+                </Fragment>
+              );
+            })}
+          </div>
+        ) : (
+          <Typography style={{ height: 'auto', textAlign: 'center' }}>
+            You have nothing scheduled for today
+          </Typography>
+        )}
+      </List>
+      <AddDialog
+        addClicked={addClicked}
+        iconClick={iconClick}
+      />
+    </Fragment>
   );
 };
 
 Schedule.propTypes = {
-  schedule: PropTypes.InstanceOf(Array).isRequired,
+  schedule: PropTypes.instanceOf(Array).isRequired,
 };
 
 export default Schedule;
