@@ -72,23 +72,26 @@ const useStyles = makeStyles(() => ({
 
 
 const AddDialog = (props) => {
-  const {
-    addClicked, iconClick, date, changeDate,
-  } = props;
-  const [input, setInput] = useReducer(
-    (state, newState) => ({ ...state, ...newState }),
-    {
-      task: '',
-    },
-  );
-  const handleDateChange = (selectedDate) => {
-    changeDate(selectedDate);
-  };
-  const formatDate = date.format('YYYY-MM-DD');
   const classes = useStyles();
   const {
     root, dialog, task, description, dialogActions, saveButton, picker, location,
   } = classes;
+  const {
+    addClicked, iconClick, date, changeDate,
+  } = props;
+  const inputText = {
+    taskInput: '',
+    // locationInput: '',
+    // descriptionInput: '',
+  };
+  const [input, setInput] = useReducer((state, newState) => (
+    { ...state, ...newState }
+  ), inputText);
+  const { taskInput, locationInput, descriptionInput } = input;
+  const handleDateChange = (selectedDate) => {
+    changeDate(selectedDate);
+  };
+  const formatDate = date.format('YYYY-MM-DD');
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInput({ [name]: value });
@@ -106,10 +109,10 @@ const AddDialog = (props) => {
               <Grid item xs={12}>
                 <TextField
                   className={task}
-                  name="task"
+                  name="taskInput"
                   onChange={handleInputChange}
                   label="Add Task"
-                  value={input.task}
+                  value={taskInput}
                 />
               </Grid>
               <Grid item xs={6} sm={3}>
@@ -178,6 +181,8 @@ const AddDialog = (props) => {
                   className={location}
                   label="Add a location"
                   size="small"
+                  name="locationInput"
+                  value={locationInput}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -187,6 +192,8 @@ const AddDialog = (props) => {
                   label="Add a description"
                   className={description}
                   rows={5}
+                  name="descriptionInput"
+                  value={descriptionInput}
                 />
               </Grid>
             </Grid>
