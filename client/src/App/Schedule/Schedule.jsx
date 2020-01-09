@@ -43,11 +43,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Schedule = ({ schedule }) => {
   const [addClicked, iconClick] = useState(false);
+  const [date, changeDate] = useState(moment());
+  const targetDate = date.format('MMMM D, YYYY');
   const classes = useStyles();
   const {
     root, header, item, fab, addIcon, dateFormat,
   } = classes;
-  const date = moment().format('MMMM D, YYYY');
   return (
     <Fragment>
       <List className={root}>
@@ -68,7 +69,7 @@ const Schedule = ({ schedule }) => {
             variant="h5"
             className={dateFormat}
           >
-            {date}
+            {targetDate}
           </Typography>
         </ListSubheader>
         {schedule && schedule.length ? (
@@ -96,6 +97,8 @@ const Schedule = ({ schedule }) => {
       <AddDialog
         addClicked={addClicked}
         iconClick={iconClick}
+        date={date}
+        changeDate={changeDate}
       />
     </Fragment>
   );
