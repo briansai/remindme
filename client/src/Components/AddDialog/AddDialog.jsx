@@ -9,6 +9,7 @@ import {
   MuiPickersUtilsProvider, KeyboardDatePicker, KeyboardTimePicker,
 } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
+/* eslint no-underscore-dangle: ["error", { "allow": ["_d"] }] */
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -77,21 +78,25 @@ const AddDialog = (props) => {
     root, dialog, task, description, dialogActions, saveButton, picker, location,
   } = classes;
   const {
-    addClicked, iconClick, date, changeDate,
+    addClicked, iconClick, startDate, changeStartDate, endDate, changeEndDate,
   } = props;
   const inputText = {
     taskInput: '',
-    // locationInput: '',
-    // descriptionInput: '',
+    locationInput: '',
+    descriptionInput: '',
   };
   const [input, setInput] = useReducer((state, newState) => (
     { ...state, ...newState }
   ), inputText);
   const { taskInput, locationInput, descriptionInput } = input;
-  const handleDateChange = (selectedDate) => {
-    changeDate(selectedDate);
+  const handleStartChange = (acceptedDate) => {
+    const date = (acceptedDate && acceptedDate._d) || new Date();
+    changeStartDate(date);
   };
-  const formatDate = date.format('YYYY-MM-DD');
+  const handleEndChange = (accepted) => {
+    const date = (accepted && accepted._d) || new Date();
+    changeEndDate(date);
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setInput({ [name]: value });
@@ -122,9 +127,10 @@ const AddDialog = (props) => {
                   format="MM/DD/YYYY"
                   margin="none"
                   label="Start Date"
-                  value={formatDate}
-                  onChange={handleDateChange}
+                  value={startDate}
+                  onChange={handleStartChange}
                   autoOk
+                  minDate={new Date()}
                   className={picker}
                   inputVariant="outlined"
                   KeyboardButtonProps={{
@@ -136,10 +142,13 @@ const AddDialog = (props) => {
                 <KeyboardTimePicker
                   margin="none"
                   label="Start Time"
-                  value={formatDate}
-                  onChange={handleDateChange}
+                  value={startDate}
+                  onChange={handleStartChange}
                   className={picker}
+                  minutesStep={5}
                   inputVariant="outlined"
+                  placeholder="00:00 AM"
+                  mask="__:__ _M"
                   KeyboardButtonProps={{
                     'aria-label': 'change time',
                   }}
@@ -149,10 +158,13 @@ const AddDialog = (props) => {
                 <KeyboardTimePicker
                   margin="none"
                   label="End Time"
-                  value={formatDate}
-                  onChange={handleDateChange}
+                  value={endDate}
+                  onChange={handleEndChange}
                   className={picker}
+                  minutesStep={5}
                   inputVariant="outlined"
+                  placeholder="00:00 AM"
+                  mask="__:__ _M"
                   KeyboardButtonProps={{
                     'aria-label': 'change time',
                   }}
@@ -165,9 +177,10 @@ const AddDialog = (props) => {
                   format="MM/DD/YYYY"
                   margin="none"
                   label="End Date"
-                  value={formatDate}
-                  onChange={handleDateChange}
+                  value={endDate}
+                  onChange={handleEndChange}
                   autoOk
+                  minDate={startDate}
                   className={picker}
                   inputVariant="outlined"
                   KeyboardButtonProps={{
@@ -183,6 +196,7 @@ const AddDialog = (props) => {
                   size="small"
                   name="locationInput"
                   value={locationInput}
+                  onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -194,6 +208,7 @@ const AddDialog = (props) => {
                   rows={5}
                   name="descriptionInput"
                   value={descriptionInput}
+                  onChange={handleInputChange}
                 />
               </Grid>
             </Grid>
@@ -215,8 +230,10 @@ const AddDialog = (props) => {
 AddDialog.propTypes = {
   addClicked: PropTypes.bool.isRequired,
   iconClick: PropTypes.func.isRequired,
-  date: PropTypes.instanceOf(Object).isRequired,
-  changeDate: PropTypes.func.isRequired,
+  startDate: PropTypes.string.isRequired,
+  endDate: PropTypes.string.isRequired,
+  changeStartDate: PropTypes.func.isRequired,
+  changeEndDate: PropTypes.func.isRequired,
 };
 
 export default AddDialog;

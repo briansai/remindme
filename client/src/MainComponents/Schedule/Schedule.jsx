@@ -7,7 +7,7 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import { Cancel, Star } from '@material-ui/icons';
 import moment from 'moment';
-import AddDialog from './AddDialog/AddDialog';
+import AddDialog from '../AddDialog/AddDialog';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,11 +41,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const roundTime = (changeMinutes) => {
+  const minutes = changeMinutes.getMinutes();
+  const roundMinutes = Math.ceil(minutes / 5) * 5;
+  return changeMinutes.setMinutes(roundMinutes);
+};
+
 const Schedule = ({ schedule }) => {
   const [addClicked, iconClick] = useState(false);
-  const [date, changeDate] = useState(moment());
-  const targetDate = date.format('MMMM D, YYYY');
+  const [startDate, changeStartDate] = useState(new Date());
+  const [endDate, changeEndDate] = useState(new Date());
+  const displayDate = moment(startDate).format('MMMM D, YYYY');
   const classes = useStyles();
+  roundTime(startDate);
+  roundTime(endDate);
   const {
     root, header, item, fab, addIcon, dateFormat,
   } = classes;
@@ -69,7 +78,7 @@ const Schedule = ({ schedule }) => {
             variant="h5"
             className={dateFormat}
           >
-            {targetDate}
+            {displayDate}
           </Typography>
         </ListSubheader>
         {schedule && schedule.length ? (
@@ -97,8 +106,10 @@ const Schedule = ({ schedule }) => {
       <AddDialog
         addClicked={addClicked}
         iconClick={iconClick}
-        date={date}
-        changeDate={changeDate}
+        startDate={startDate}
+        changeStartDate={changeStartDate}
+        endDate={endDate}
+        changeEndDate={changeEndDate}
       />
     </Fragment>
   );

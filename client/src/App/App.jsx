@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import NavBar from './NavBar/NavBar';
-import Schedule from './Schedule/Schedule';
+import React, { Component, Fragment } from 'react';
+import NavBar from '../Components/NavBar/NavBar';
+import Schedule from '../Components/Schedule/Schedule';
 
 export default class App extends Component {
   constructor(props) {
@@ -14,17 +14,17 @@ export default class App extends Component {
   render() {
     const { schedule, addModal } = this.state;
     return (
-      <div>
-        <div className="main">
+      <Fragment>
+        <Fragment>
           <NavBar />
-        </div>
-        <div>
+        </Fragment>
+        <Fragment>
           <Schedule
             schedule={schedule}
             addModal={addModal}
           />
-        </div>
-      </div>
+        </Fragment>
+      </Fragment>
     );
   }
 }
