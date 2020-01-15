@@ -169,8 +169,8 @@ const AddDialog = (props) => {
 AddDialog.propTypes = {
   addClicked: PropTypes.bool.isRequired,
   iconClick: PropTypes.func.isRequired,
-  startDate: PropTypes.string.isRequired,
-  endDate: PropTypes.string.isRequired,
+  startDate: PropTypes.instanceOf(Date).isRequired,
+  endDate: PropTypes.instanceOf(Date).isRequired,
   changeStartDate: PropTypes.func.isRequired,
   changeEndDate: PropTypes.func.isRequired,
 };
