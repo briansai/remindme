@@ -7,7 +7,7 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import { Cancel, Star } from '@material-ui/icons';
 import moment from 'moment';
-import AddDialog from '../AddDialog/AddDialog';
+import AddDialog from '../../SubComponents/AddDialog/AddDialog';
 
 const useStyles = makeStyles((theme) => ({
   root: {
