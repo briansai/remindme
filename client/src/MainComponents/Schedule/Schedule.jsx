@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -53,11 +53,22 @@ const Schedule = ({ schedule }) => {
   const [endDate, changeEndDate] = useState(new Date());
   const displayDate = moment(startDate).format('MMMM D, YYYY');
   const classes = useStyles();
-  roundTime(startDate);
-  roundTime(endDate);
   const {
     root, header, item, fab, addIcon, dateFormat,
   } = classes;
+  const submitSchedule = (inputs) => {
+    const { taskInput, locationInput, descriptionInput } = inputs
+    return ({
+      startDate,
+      endDate,
+      taskInput,
+      locationInput,
+      descriptionInput
+    })
+  }
+
+  roundTime(startDate);
+  roundTime(endDate);
   return (
     <Fragment>
       <List className={root}>
@@ -110,6 +121,7 @@ const Schedule = ({ schedule }) => {
         changeStartDate={changeStartDate}
         endDate={endDate}
         changeEndDate={changeEndDate}
+        submitSchedule={submitSchedule}
       />
     </Fragment>
   );

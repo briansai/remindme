@@ -61,7 +61,7 @@ const AddDialog = (props) => {
     root, dialog, task, description, dialogActions, saveButton, location,
   } = classes;
   const {
-    addClicked, iconClick, startDate, changeStartDate, endDate, changeEndDate,
+    addClicked, iconClick, startDate, changeStartDate, endDate, changeEndDate, submitSchedule
   } = props;
   const inputText = {
     taskInput: '',
@@ -88,6 +88,7 @@ const AddDialog = (props) => {
     const { name, value } = e.target;
     setInput({ [name]: value });
   };
+  const handleSaveClicked = () => submitSchedule(input);
   return (
     <Fragment>
       <Dialog
@@ -156,7 +157,10 @@ const AddDialog = (props) => {
             <Button onClick={() => iconClick(false)}>
               Cancel
             </Button>
-            <Button className={saveButton}>
+            <Button
+              className={saveButton}
+              onClick={handleSaveClicked}
+            >
               Save
             </Button>
           </DialogActions>
