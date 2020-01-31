@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import NavBar from '../MainComponents/NavBar/NavBar';
-import Schedule from '../MainComponents/Schedule/Schedule';
+import NavBar from '../MainComponents/NavBar';
+import Schedule from '../MainComponents/Schedule';
 
 export default class App extends Component {
   constructor(props) {
