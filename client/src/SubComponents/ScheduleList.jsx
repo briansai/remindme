@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { Cancel, Star } from '@material-ui/icons';
 import {
-  ListItem, ListItemText, ListItemIcon, Divider,
+  ListItem, ListItemText, ListItemIcon, Divider, Grid,
 } from '@material-ui/core';
 import moment from 'moment';
 
 const useStyles = makeStyles(() => ({
   item: {
+    '& .MuiGrid-container': {
+      width: '30%',
+    },
     margin: 10,
   },
   icon: {
@@ -35,14 +38,16 @@ const ScheduleList = (props) => {
             <ListItem
               className={item}
             >
+              <Grid container direction="column">
               <ListItemText
-                primary="Start"
-                secondary={`${startTime}`}
+                // primary="Start"
+                secondary={`Start: ${startTime}`}
               />
               <ListItemText
-                primary="End"
-                secondary={`${endTime}`}
+                // primary="End"
+                secondary={`End: ${endTime}`}
               />
+              </Grid>
               <ListItemText
                 primary="Task"
                 secondary={`${taskInput}`}
