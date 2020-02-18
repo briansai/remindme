@@ -12,9 +12,11 @@ const useStyles = makeStyles(() => ({
     '& .MuiGrid-container': {
       width: '30%',
     },
-    margin: 10,
   },
   icon: {
+    '&:hover': {
+      cursor: 'pointer',
+    },
     minWidth: 45,
   },
 }));
@@ -39,14 +41,12 @@ const ScheduleList = (props) => {
               className={item}
             >
               <Grid container direction="column">
-              <ListItemText
-                // primary="Start"
-                secondary={`Start: ${startTime}`}
-              />
-              <ListItemText
-                // primary="End"
-                secondary={`End: ${endTime}`}
-              />
+                <ListItemText
+                  secondary={`Start: ${startTime}`}
+                />
+                <ListItemText
+                  secondary={`End: ${endTime}`}
+                />
               </Grid>
               <ListItemText
                 primary="Task"
