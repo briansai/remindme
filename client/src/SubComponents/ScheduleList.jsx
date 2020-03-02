@@ -19,13 +19,19 @@ const useStyles = makeStyles(() => ({
     },
     minWidth: 45,
   },
+  listItem: {
+    width: '130px',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    marginRight: '10px',
+  },
 }));
 
 const formatTime = (date) => moment(date).format('LT');
 
 const ScheduleList = (props) => {
   const classes = useStyles();
-  const { item, icon } = classes;
+  const { item, icon, listItem } = classes;
   const { data } = props;
   return (
     <Fragment>
@@ -51,10 +57,12 @@ const ScheduleList = (props) => {
               <ListItemText
                 primary="Task"
                 secondary={`${taskInput}`}
+                className={listItem}
               />
               <ListItemText
                 primary="Location"
                 secondary={`${locationInput}`}
+                className={listItem}
               />
               <ListItemIcon className={icon}>
                 <Star />

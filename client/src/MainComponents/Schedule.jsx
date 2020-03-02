@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Fab, List, Typography, ListSubheader,
@@ -8,6 +8,7 @@ import AddIcon from '@material-ui/icons/Add';
 import moment from 'moment';
 import AddDialog from '../SubComponents/AddDialog';
 import ScheduleList from '../SubComponents/ScheduleList';
+import todo from '../../actions/todo';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,7 +46,6 @@ const roundTime = (changeMinutes) => {
 };
 
 const Schedule = () => {
-  const [data, setData] = useState([]);
   const [addClicked, handleAddModal] = useState(false);
   const [start, changeStartDate] = useState(new Date());
   const [end, changeEndDate] = useState(new Date());
@@ -54,6 +54,8 @@ const Schedule = () => {
   const {
     root, header, fab, addIcon, dateFormat,
   } = classes;
+  const listItem = useSelector((state) => state.todo.value);
+  const dispatch = useDispatch();
   const submitSchedule = (taskInput, locationInput, descriptionInput) => {
     const params = {
       start,
@@ -63,13 +65,7 @@ const Schedule = () => {
       descriptionInput,
     };
 
-    axios.post('/postSchedule', params)
-      .then((res) => {
-        setData(res.data);
-      })
-      .catch((err) => {
-        throw new Error(err);
-      });
+    dispatch(todo(params));
   };
 
   roundTime(start);
@@ -97,8 +93,8 @@ const Schedule = () => {
             {displayDate}
           </Typography>
         </ListSubheader>
-        {data && data.length ? (
-          <ScheduleList data={data} />
+        {listItem && listItem.length ? (
+          <ScheduleList data={listItem} />
         ) : (
           <Typography style={{ height: 'auto', textAlign: 'center' }}>
             You have nothing scheduled for today
