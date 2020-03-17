@@ -5,13 +5,8 @@ import MomentUtils from '@date-io/moment';
 import {
   Dialog, DialogContent, DialogActions, Button, TextField, Grid,
 } from '@material-ui/core';
-import {
-  ExpandLess, ExpandMore,
-} from '@material-ui/icons';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { makeStyles } from '@material-ui/core/styles';
-import DatePicker from './DatePicker';
-import TimePicker from './TimePicker';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -74,32 +69,18 @@ const inputText = {
 const AddDialog = (props) => {
   const classes = useStyles();
   const {
-    root, dialog, task, description, dialogActions, saveButton, location, expand,
+    root, dialog, task, description, dialogActions, saveButton, location,
   } = classes;
   const {
-    addClicked, handleAddModal, start, changeStartDate, end, changeEndDate, submitSchedule,
+    addClicked, handleAddModal, submitSchedule,
   } = props;
   const [
     { taskInput, locationInput, descriptionInput },
     setState,
   ] = useState(inputText);
-  const [collapseOpen, collapse] = useState(false);
-  const startDateInfo = {
-    date: start,
-    changeDate: changeStartDate,
-    minDate: new Date(),
-  };
-  const endDateInfo = {
-    date: end,
-    changeDate: changeEndDate,
-    minDate: start,
-  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
-  };
-  const handleCollapse = () => {
-    collapse(!collapseOpen);
   };
   const handleSaveClicked = () => {
     submitSchedule(taskInput, locationInput, descriptionInput);
@@ -125,43 +106,6 @@ const AddDialog = (props) => {
                   value={taskInput}
                 />
               </Grid>
-              <Grid item xs={12} sm={5}>
-                <DatePicker
-                  dateInfo={startDateInfo}
-                  label="Start Date"
-                />
-              </Grid>
-              <Grid item xs={12} sm={5}>
-                <DatePicker
-                  dateInfo={endDateInfo}
-                  label="End Date"
-                />
-              </Grid>
-              <Grid item xs={12} sm={1}>
-                {collapseOpen ? (
-                  <ExpandLess className={expand} onClick={handleCollapse} />
-                ) : (
-                  <ExpandMore className={expand} onClick={handleCollapse} />
-                )}
-              </Grid>
-              {collapseOpen ? (
-                <Fragment>
-                  <Grid item xs={12} sm={5}>
-                    <TimePicker
-                      dateInfo={startDateInfo}
-                      label="Start Time"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={5}>
-                    <TimePicker
-                      dateInfo={endDateInfo}
-                      label="End Time"
-                    />
-                  </Grid>
-                </Fragment>
-              ) : (
-                null
-              )}
               <Grid item xs={10}>
                 <TextField
                   variant="outlined"
@@ -207,10 +151,6 @@ const AddDialog = (props) => {
 AddDialog.propTypes = {
   addClicked: PropTypes.bool.isRequired,
   handleAddModal: PropTypes.func.isRequired,
-  start: PropTypes.instanceOf(Date).isRequired,
-  end: PropTypes.instanceOf(Date).isRequired,
-  changeStartDate: PropTypes.func.isRequired,
-  changeEndDate: PropTypes.func.isRequired,
   submitSchedule: PropTypes.func.isRequired,
 };
 

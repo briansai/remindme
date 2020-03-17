@@ -33,7 +33,7 @@ const NavBar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h5" className={classes.title}>
-            Remind Me
+            My Schedule
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>

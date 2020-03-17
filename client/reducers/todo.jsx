@@ -1,21 +1,20 @@
 const todo = (state = [], action) => {
-  const payload = action.payload;
+  const { payload } = action;
+  const info = payload && payload.data[0];
+
   switch (action.type) {
     case 'ADD_TODO_SUCCESS':
-      const data = payload.data[0];
-
       return (
         state.value ? {
-          value: state.value.concat(data),
+          value: state.value.concat(info),
         } : {
-          value: state.concat(data),
+          value: state.concat(info),
         }
-
-      )
+      );
     case 'ADD_TODO_FAILURE':
       return {
         error: payload.message,
-      }
+      };
     default:
       return state;
   }

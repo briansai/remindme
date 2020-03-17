@@ -5,7 +5,10 @@ import {
   Fab, List, Typography, ListSubheader,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import { ExpandLess, ExpandMore } from '@material-ui/icons';
+import { MuiPickersUtilsProvider, Calendar } from '@material-ui/pickers';
 import moment from 'moment';
+import MomentUtils from '@date-io/moment';
 import AddDialog from '../SubComponents/AddDialog';
 import ScheduleList from '../SubComponents/ScheduleList';
 import todo from '../../actions/todo';
@@ -37,29 +40,36 @@ const useStyles = makeStyles((theme) => ({
     float: 'right',
     margin: '5%',
   },
+  expand: {
+    '&:hover': {
+      cursor: 'pointer',
+    },
+  },
+  lowCalendar: {
+    marginTop: '0px',
+    border: '1px solid black',
+    backgroundColor: 'white',
+    zIndex: 1,
+    overflow: 'hidden',
+    padding: '10px',
+    position: 'absolute',
+  },
 }));
-
-const roundTime = (changeMinutes) => {
-  const minutes = changeMinutes.getMinutes();
-  const roundMinutes = Math.ceil(minutes / 5) * 5;
-  return changeMinutes.setMinutes(roundMinutes);
-};
 
 const Schedule = () => {
   const [addClicked, handleAddModal] = useState(false);
-  const [start, changeStartDate] = useState(new Date());
-  const [end, changeEndDate] = useState(new Date());
-  const displayDate = moment(start).format('MMMM D, YYYY');
+  const [date, changeDate] = useState(new Date());
+  const [collapseOpen, collapse] = useState(false);
+  const displayDate = moment(date).format('MMMM D, YYYY');
+  const scheduleDate = moment(date);
   const classes = useStyles();
   const {
-    root, header, fab, addIcon, dateFormat,
+    root, header, fab, addIcon, dateFormat, expand, lowCalendar,
   } = classes;
   const listItem = useSelector((state) => state.todo.value);
   const dispatch = useDispatch();
   const submitSchedule = (taskInput, locationInput, descriptionInput) => {
     const params = {
-      start,
-      end,
       taskInput,
       locationInput,
       descriptionInput,
@@ -67,9 +77,10 @@ const Schedule = () => {
 
     dispatch(todo(params));
   };
+  const handleCollapse = () => {
+    collapse(!collapseOpen);
+  };
 
-  roundTime(start);
-  roundTime(end);
   return (
     <Fragment>
       <List className={root}>
@@ -91,6 +102,24 @@ const Schedule = () => {
             className={dateFormat}
           >
             {displayDate}
+            {collapseOpen ? (
+              <Fragment>
+                <ExpandMore className={expand} onClick={handleCollapse} />
+                <div className={lowCalendar}>
+                  <MuiPickersUtilsProvider utils={MomentUtils}>
+                    <Calendar
+                      date={scheduleDate}
+                      onChange={(e) => {
+                        changeDate(e._d);
+                        handleCollapse();
+                      }}
+                    />
+                  </MuiPickersUtilsProvider>
+                </div>
+              </Fragment>
+            ) : (
+              <ExpandLess className={expand} onClick={handleCollapse} />
+            )}
           </Typography>
         </ListSubheader>
         {listItem && listItem.length ? (
@@ -104,10 +133,6 @@ const Schedule = () => {
       <AddDialog
         addClicked={addClicked}
         handleAddModal={handleAddModal}
-        start={start}
-        changeStartDate={changeStartDate}
-        end={end}
-        changeEndDate={changeEndDate}
         submitSchedule={submitSchedule}
       />
     </Fragment>
