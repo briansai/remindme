@@ -1,11 +1,10 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { Cancel, Star } from '@material-ui/icons';
+import { Cancel, Edit } from '@material-ui/icons';
 import {
-  ListItem, ListItemText, ListItemIcon, Divider, Grid,
+  ListItem, ListItemText, ListItemIcon, Divider, Tooltip
 } from '@material-ui/core';
-import moment from 'moment';
 
 const useStyles = makeStyles(() => ({
   item: {
@@ -23,11 +22,10 @@ const useStyles = makeStyles(() => ({
     width: '130px',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
-    marginRight: '10px',
+    marginLeft: '15px',
+    marginRight: '15px',
   },
 }));
-
-const formatTime = (date) => moment(date).format('LT');
 
 const ScheduleList = (props) => {
   const classes = useStyles();
@@ -37,40 +35,32 @@ const ScheduleList = (props) => {
     <Fragment>
       {data.map((work, index) => {
         const {
-          start, end, locationInput, taskInput,
+          locationInput, taskInput, descriptionInput
         } = work;
-        const startTime = formatTime(start);
-        const endTime = formatTime(end);
         return (
           <Fragment key={String(index)}>
-            <ListItem
-              className={item}
-            >
-              <Grid container direction="column">
+            <Tooltip title={descriptionInput}>
+              <ListItem
+                className={item}
+              >
                 <ListItemText
-                  secondary={`Start: ${startTime}`}
+                  primary="Task"
+                  secondary={`${taskInput}`}
+                  className={listItem}
                 />
                 <ListItemText
-                  secondary={`End: ${endTime}`}
+                  primary="Location"
+                  secondary={`${locationInput}`}
+                  className={listItem}
                 />
-              </Grid>
-              <ListItemText
-                primary="Task"
-                secondary={`${taskInput}`}
-                className={listItem}
-              />
-              <ListItemText
-                primary="Location"
-                secondary={`${locationInput}`}
-                className={listItem}
-              />
-              <ListItemIcon className={icon}>
-                <Star />
-              </ListItemIcon>
-              <ListItemIcon className={icon}>
-                <Cancel />
-              </ListItemIcon>
-            </ListItem>
+                <ListItemIcon className={icon}>
+                  <Edit />
+                </ListItemIcon>
+                <ListItemIcon className={icon}>
+                  <Cancel />
+                </ListItemIcon>
+              </ListItem>
+            </Tooltip>
             <Divider component="li" />
           </Fragment>
         );

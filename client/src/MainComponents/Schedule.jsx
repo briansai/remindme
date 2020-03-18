@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     border: '2px solid #e0e0e0',
     borderRadius: 12,
     backgroundColor: theme.palette.background.paper,
+    overflow: 'auto',
   },
   header: {
     height: 80,
@@ -49,10 +50,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '0px',
     border: '1px solid black',
     backgroundColor: 'white',
-    zIndex: 1,
     overflow: 'hidden',
     padding: '10px',
-    position: 'absolute',
+    position: 'fixed',
   },
 }));
 
