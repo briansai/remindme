@@ -72,7 +72,7 @@ const Schedule = () => {
     const params = {
       taskInput,
       locationInput,
-      descriptionInput,
+      descriptionInput: descriptionInput || 'No Description',
     };
 
     dispatch(todo(params));
