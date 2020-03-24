@@ -46,6 +46,11 @@ const useStyles = makeStyles((theme) => ({
       cursor: 'pointer',
     },
   },
+  noItem: {
+    height: 'auto',
+    textAlign: 'center',
+    marginTop: '5%',
+  },
   lowCalendar: {
     marginTop: '0px',
     border: '1px solid black',
@@ -64,7 +69,7 @@ const Schedule = () => {
   const scheduleDate = moment(date);
   const classes = useStyles();
   const {
-    root, header, fab, addIcon, dateFormat, expand, lowCalendar,
+    root, header, fab, addIcon, dateFormat, expand, noItem, lowCalendar,
   } = classes;
   const listItem = useSelector((state) => state.todo.value);
   const dispatch = useDispatch();
@@ -125,7 +130,7 @@ const Schedule = () => {
         {listItem && listItem.length ? (
           <ScheduleList data={listItem} />
         ) : (
-          <Typography style={{ height: 'auto', textAlign: 'center' }}>
+          <Typography className={noItem}>
             You have nothing scheduled for today
           </Typography>
         )}

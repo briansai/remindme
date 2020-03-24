@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { Cancel, Edit } from '@material-ui/icons';
 import {
-  ListItem, ListItemText, ListItemIcon, Divider, Tooltip
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Divider,
+  Tooltip,
 } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
@@ -35,7 +39,9 @@ const ScheduleList = (props) => {
     <Fragment>
       {data.map((work, index) => {
         const {
-          locationInput, taskInput, descriptionInput
+          locationInput,
+          taskInput,
+          descriptionInput,
         } = work;
         return (
           <Fragment key={String(index)}>
