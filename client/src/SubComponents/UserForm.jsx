@@ -148,6 +148,7 @@ const UserForm = (props) => {
             const contentName = handleName(content);
             return (
               <TextField
+                key={content}
                 label={content}
                 variant="outlined"
                 size="small"

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import {
@@ -11,7 +11,7 @@ import moment from 'moment';
 import MomentUtils from '@date-io/moment';
 import AddDialog from '../SubComponents/AddDialog';
 import ScheduleList from '../SubComponents/ScheduleList';
-import todo from '../../actions/todo';
+import { getTodo, todo } from '../../actions/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,17 +62,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Schedule = () => {
-  const [addClicked, handleAddModal] = useState(false);
-  const [date, changeDate] = useState(new Date());
-  const [collapseOpen, collapse] = useState(false);
-  const displayDate = moment(date).format('MMMM D, YYYY');
-  const scheduleDate = moment(date);
   const classes = useStyles();
   const {
     root, header, fab, addIcon, dateFormat, expand, noItem, lowCalendar,
   } = classes;
-  const listItem = useSelector((state) => state.todo.value);
+  const [addClicked, handleAddModal] = useState(false);
+  const [date, changeDate] = useState(new Date());
+  const [collapseOpen, collapse] = useState(false);
+  const listItem = useSelector((state) => state.getTodo);
   const dispatch = useDispatch();
+  const displayDate = moment(date).format('MMMM D, YYYY');
+  const scheduleDate = moment(date);
   const submitSchedule = (taskInput, locationInput, descriptionInput) => {
     const params = {
       taskInput,
@@ -85,6 +85,10 @@ const Schedule = () => {
   const handleCollapse = () => {
     collapse(!collapseOpen);
   };
+
+  useEffect(() => {
+    dispatch(getTodo());
+  }, [addClicked]);
 
   return (
     <Fragment>
