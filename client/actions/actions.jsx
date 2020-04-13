@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const getTodo = () => (
+const getTodo = (query) => (
   (dispatch) => {
-    axios.get('/getSchedule')
+    axios.get('/schedule', { query })
       .then((res) => {
         dispatch({ type: 'GET_TODO_SUCCESS', payload: res });
       })
@@ -12,9 +12,21 @@ const getTodo = () => (
   }
 );
 
-const todo = (value) => (
+const addAnotherTodo = (item) => (
   (dispatch) => {
-    axios.post('/postSchedule', value)
+    axios.post('/addToSchedule', item)
+      .then((res) => {
+        dispatch({ type: 'ADD_ANOTHER_SUCCESS', payload: res });
+      })
+      .catch((err) => {
+        dispatch({ type: 'ADD_ANOTHER_FAILURE', payload: err });
+      });
+  }
+);
+
+const todo = (item) => (
+  (dispatch) => {
+    axios.post('/schedule', item)
       .then((res) => {
         dispatch({ type: 'ADD_TODO_SUCCESS', payload: res });
       })
@@ -36,4 +48,9 @@ const register = (value) => (
   }
 );
 
-export { todo, register, getTodo };
+export {
+  todo,
+  register,
+  getTodo,
+  addAnotherTodo,
+};

@@ -13,6 +13,20 @@ const getTodo = (state = [], action) => {
   }
 };
 
+const addAnotherTodo = (state = {}, action) => {
+  const { payload } = action;
+  switch (action.type) {
+    case 'ADD_ANOTHER_SUCCESS':
+      return {};
+    case 'ADD_ANOTHER_FAILURE':
+      return {
+        error: payload.message,
+      };
+    default:
+      return state;
+  }
+};
+
 const todo = (state = {}, action) => {
   const { payload } = action;
   switch (action.type) {
@@ -41,4 +55,9 @@ const register = (state = {}, action) => {
   }
 };
 
-export { todo, register, getTodo };
+export {
+  todo,
+  register,
+  getTodo,
+  addAnotherTodo,
+};

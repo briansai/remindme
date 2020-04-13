@@ -1,13 +1,14 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { Cancel, Edit } from '@material-ui/icons';
+import { Delete, Edit } from '@material-ui/icons';
 import {
   ListItem,
   ListItemText,
   ListItemIcon,
   Divider,
   Tooltip,
+  Button,
 } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
@@ -21,6 +22,7 @@ const useStyles = makeStyles(() => ({
       cursor: 'pointer',
     },
     minWidth: 45,
+    margin: 5,
   },
   listItem: {
     width: '130px',
@@ -45,7 +47,7 @@ const ScheduleList = (props) => {
         } = work;
         return (
           <Fragment key={String(index)}>
-            <Tooltip title={descriptionInput}>
+            <Tooltip title={descriptionInput || 'No Description'}>
               <ListItem
                 className={item}
               >
@@ -60,10 +62,18 @@ const ScheduleList = (props) => {
                   className={listItem}
                 />
                 <ListItemIcon className={icon}>
-                  <Edit />
+                  <Tooltip title="Edit">
+                    <Button>
+                      <Edit />
+                    </Button>
+                  </Tooltip>
                 </ListItemIcon>
                 <ListItemIcon className={icon}>
-                  <Cancel />
+                  <Tooltip title="Delete">
+                    <Button>
+                      <Delete />
+                    </Button>
+                  </Tooltip>
                 </ListItemIcon>
               </ListItem>
             </Tooltip>

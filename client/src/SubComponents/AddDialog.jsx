@@ -69,7 +69,7 @@ const inputText = {
 const AddDialog = (props) => {
   const classes = useStyles();
   const {
-    root, dialog, task, description, dialogActions, saveButton, location,
+    root, dialog, task, dialogActions, saveButton, location, description,
   } = classes;
   const {
     addClicked, handleAddModal, submitSchedule,

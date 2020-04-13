@@ -11,7 +11,7 @@ import moment from 'moment';
 import MomentUtils from '@date-io/moment';
 import AddDialog from '../SubComponents/AddDialog';
 import ScheduleList from '../SubComponents/ScheduleList';
-import { getTodo, todo } from '../../actions/actions';
+import { getTodo, todo, addAnotherTodo } from '../../actions/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,6 +61,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const formatDate = (date) => moment(date).format('MM-DD-YY');
+
 const Schedule = () => {
   const classes = useStyles();
   const {
@@ -69,25 +71,60 @@ const Schedule = () => {
   const [addClicked, handleAddModal] = useState(false);
   const [date, changeDate] = useState(new Date());
   const [collapseOpen, collapse] = useState(false);
-  const listItem = useSelector((state) => state.getTodo);
+  const listItem = useSelector((state) => {
+    const { list } = state.getTodo;
+    if (list) {
+      for (let x = 0; x < list.length; x += 1) {
+        const listDate = moment(new Date(list[x].date)).format('MM-DD-YY');
+        const scheduledDate = formatDate(date);
+        if (listDate === scheduledDate) {
+          return {
+            tasks: list[x],
+            listLength: list[x].items.length,
+          };
+        }
+      }
+      return { listLength: 0 };
+    }
+    return undefined;
+  });
   const dispatch = useDispatch();
   const displayDate = moment(date).format('MMMM D, YYYY');
   const scheduleDate = moment(date);
+
   const submitSchedule = (taskInput, locationInput, descriptionInput) => {
-    const params = {
-      taskInput,
-      locationInput,
-      descriptionInput: descriptionInput || 'No Description',
+    let params = {
+      _id: 1,
+      list: [{
+        date: formatDate(date),
+        items: [{
+          taskInput,
+          locationInput,
+          descriptionInput,
+        }],
+      }],
     };
 
-    dispatch(todo(params));
+    if (listItem && listItem.listLength >= 0) {
+      params = {
+        _id: 1,
+        date: formatDate(date),
+        items: {
+          taskInput,
+          locationInput,
+          descriptionInput,
+        },
+      };
+      return dispatch(addAnotherTodo(params));
+    }
+    return dispatch(todo(params));
   };
   const handleCollapse = () => {
     collapse(!collapseOpen);
   };
 
   useEffect(() => {
-    dispatch(getTodo());
+    dispatch(getTodo({ _id: 1 }));
   }, [addClicked]);
 
   return (
@@ -131,8 +168,8 @@ const Schedule = () => {
             )}
           </Typography>
         </ListSubheader>
-        {listItem && listItem.length ? (
-          <ScheduleList data={listItem} />
+        {listItem && listItem.tasks ? (
+          <ScheduleList data={listItem.tasks.items} />
         ) : (
           <Typography className={noItem}>
             You have nothing scheduled for today
